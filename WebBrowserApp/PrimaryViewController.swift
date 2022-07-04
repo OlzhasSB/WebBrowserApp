@@ -6,26 +6,30 @@
 //
 
 import UIKit
-
-struct Site {
-    var url: URL?
-    var title: String?
-}
+import CoreData
 
 class PrimaryViewController: UIViewController {
 
-    let segmentedControl = UISegmentedControl (items: ["List","Favourite"])
-    let tableView = UITableView()
+    private let segmentedControl = UISegmentedControl (items: ["List","Favourite"])
+    private let tableView = UITableView()
     
-    var list = [
+    private var list = [
         Site(url: URL(string: "https://www.apple.com"), title: "Apple"),
-        Site(url: URL(string: "https://www.google.com/?client=safari"), title: "Google"),
+        Site(url: URL(string: "https://www.google.com"), title: "Google"),
         Site(url: URL(string: "https://www.youtube.com"), title: "YouTube")
-    ]
+    ] {
+        didSet {
+            if segmentedControl.selectedSegmentIndex == 0 { sites = list }
+        }
+    }
     
-    var favSites: [Site] = []
+    private var favSites: [Site] = [] {
+        didSet {
+            if segmentedControl.selectedSegmentIndex == 1 { sites = favSites }
+        }
+    }
     
-    var sites: [Site] = []
+    private var sites: [Site] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +37,7 @@ class PrimaryViewController: UIViewController {
         makeConstraints()
     }
     
-    @objc func segmentChanged(_ sender: UISegmentedControl) {
+    @objc private func segmentChanged(_ sender: UISegmentedControl) {
         if segmentedControl.selectedSegmentIndex == 0 {
             sites = list
         } else {
@@ -42,7 +46,7 @@ class PrimaryViewController: UIViewController {
         tableView.reloadData()
     }
     
-    @objc func addSite() {
+    @objc private func addSiteWithAlert() {
         let alert  = UIAlertController(title: "Add website", message: "Fill all the fields", preferredStyle: .alert)
         alert.addTextField { (textField: UITextField) in
             textField.placeholder = "Enter title"
@@ -58,7 +62,6 @@ class PrimaryViewController: UIViewController {
             let site = Site(url: URL(string: url), title: title)
             list.append(site)
             tableView.reloadData()
-            
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
@@ -67,9 +70,10 @@ class PrimaryViewController: UIViewController {
     private func configureViews() {
         view.backgroundColor = .white
         title = "Websites"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addSite))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addSiteWithAlert))
         
         segmentedControl.selectedSegmentIndex = 0
+        sites = list
         segmentedControl.addTarget(self, action: #selector(segmentChanged(_:)), for: .valueChanged)
         segmentedControl.selectedSegmentTintColor = .systemBlue
         segmentedControl.layer.borderColor = UIColor.systemBlue.cgColor
@@ -80,7 +84,6 @@ class PrimaryViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(WebsiteCell.self, forCellReuseIdentifier: "websiteCell")
-        sites = list
     }
     
     private func makeConstraints() {
@@ -114,14 +117,37 @@ extension PrimaryViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = SecondaryViewController()
-        vc.site = sites[indexPath.row]
         vc.delegate = self
+        vc.title = sites[indexPath.row].title
+        vc.site = sites[indexPath.row]
+        vc.loadPage()
+        self.showDetailViewController(UINavigationController(rootViewController: vc), sender: nil)
+        if favSites.contains(sites[indexPath.row]) {
+            vc.navigationController?.navigationBar.backgroundColor = .yellow
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            if segmentedControl.selectedSegmentIndex == 0 {
+                list.remove(at: indexPath.row)
+            } else if segmentedControl.selectedSegmentIndex == 1  {
+                favSites.remove(at: indexPath.row)
+            }
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
 }
 
+// MARK: - Add Delegate
+
 extension PrimaryViewController: AddSiteDelegate {
     func addToFavourite(_ site: Site) {
-        favSites.append(site)
+        if let index = favSites.firstIndex(of: site) {
+            favSites.remove(at: index)
+        } else {
+            favSites.append(site)
+        }
         tableView.reloadData()
     }
 }

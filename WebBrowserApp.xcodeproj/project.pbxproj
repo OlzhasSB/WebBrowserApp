@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		31E68AA02872A53400CAE642 /* Site.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E68A9F2872A53400CAE642 /* Site.swift */; };
 		ACDFBD4028715CC700563E59 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDFBD3F28715CC700563E59 /* AppDelegate.swift */; };
 		ACDFBD4228715CC700563E59 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDFBD4128715CC700563E59 /* SceneDelegate.swift */; };
 		ACDFBD4728715CC700563E59 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACDFBD4528715CC700563E59 /* Main.storyboard */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		31E68A9F2872A53400CAE642 /* Site.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Site.swift; sourceTree = "<group>"; };
 		ACDFBD3C28715CC700563E59 /* WebBrowserApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WebBrowserApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACDFBD3F28715CC700563E59 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		ACDFBD4128715CC700563E59 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -43,6 +45,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		31E68A9E2872A48300CAE642 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				ACDFBD3F28715CC700563E59 /* AppDelegate.swift */,
+				ACDFBD4128715CC700563E59 /* SceneDelegate.swift */,
+				ACDFBD4528715CC700563E59 /* Main.storyboard */,
+				ACDFBD4B28715CC900563E59 /* Assets.xcassets */,
+				ACDFBD4D28715CC900563E59 /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		ACDFBD3328715CC700563E59 = {
 			isa = PBXGroup;
 			children = (
@@ -62,13 +76,10 @@
 		ACDFBD3E28715CC700563E59 /* WebBrowserApp */ = {
 			isa = PBXGroup;
 			children = (
-				ACDFBD3F28715CC700563E59 /* AppDelegate.swift */,
-				ACDFBD4128715CC700563E59 /* SceneDelegate.swift */,
-				ACDFBD4528715CC700563E59 /* Main.storyboard */,
-				ACDFBD4B28715CC900563E59 /* Assets.xcassets */,
-				ACDFBD4D28715CC900563E59 /* LaunchScreen.storyboard */,
+				31E68A9E2872A48300CAE642 /* Supporting Files */,
 				ACDFBD5628715D1E00563E59 /* PrimaryViewController.swift */,
 				ACDFBD5828715D2500563E59 /* SecondaryViewController.swift */,
+				31E68A9F2872A53400CAE642 /* Site.swift */,
 				ACDFBD5A2871626900563E59 /* WebsiteCell.swift */,
 				ACDFBD5028715CC900563E59 /* Info.plist */,
 				ACDFBD4828715CC700563E59 /* WebBrowserApp.xcdatamodeld */,
@@ -147,6 +158,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31E68AA02872A53400CAE642 /* Site.swift in Sources */,
 				ACDFBD4A28715CC700563E59 /* WebBrowserApp.xcdatamodeld in Sources */,
 				ACDFBD5728715D1E00563E59 /* PrimaryViewController.swift in Sources */,
 				ACDFBD4028715CC700563E59 /* AppDelegate.swift in Sources */,
